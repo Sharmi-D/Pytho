@@ -1,9 +1,9 @@
 # Movie list with ticket price
 movies = {
-    "Inception": 150,
-    "Interstellar": 180,
-    "Oppenheimer": 200,
-    "Kung Fu Panda 4": 120
+    "Jocker": 150,
+    "Black Beauty": 180,
+    "IT": 200,
+    " Inception": 120
 }
 
 # Function to display movies
