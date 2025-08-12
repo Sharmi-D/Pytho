@@ -1,0 +1,24 @@
+# Bookstore data: (Book Name, Price, Stock)
+books = [
+    ("Python 101", 500, 12),
+    ("Data Science Handbook", 750, 5),
+    ("AI for Beginners", 900, 0),
+    ("Clean Code", 600, 7),
+    ("Deep Learning", 1200, 3)
+]
+
+# 1️⃣ List Comprehension: Get names of books in stock
+in_stock_books = [name for name, price, stock in books if stock > 0]
+print("📚 Books in stock:", in_stock_books)
+
+# 2️⃣ Dictionary Comprehension: Book name to price mapping
+book_price_dict = {name: price for name, price, stock in books}
+print("\n💰 Book Price Dictionary:", book_price_dict)
+
+# 3️⃣ Set Comprehension: Unique price values (to avoid duplicates)
+unique_prices = {price for _, price, _ in books}
+print("\n💲 Unique Prices:", unique_prices)
+
+# 4️⃣ Generator Comprehension: Yield discounted prices (10% off)
+discounted_prices = (price * 0.9 for _, price, stock in books if stock > 0)
+print("\n🎁 Discounted Prices (Generated):", list(discounted_prices))
