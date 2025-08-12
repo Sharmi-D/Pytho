@@ -1,0 +1,28 @@
+# Ask user for list items
+flavors = input("Enter items separated by commas: ").split(",")
+flavors = [flavor.strip() for flavor in flavors]  # Remove extra spaces
+
+# Ask user how many items per combination
+n = int(input("Enter number of items in each combination: "))
+
+# Function to generate combinations (without using itertools)
+def get_combinations(data, n):
+    if n == 0:
+        return [[]]
+    if len(data) < n:
+        return []
+    
+    # Choose first item
+    with_first = get_combinations(data[1:], n - 1)
+    with_first = [[data[0]] + combo for combo in with_first]
+    
+    # Skip first item
+    without_first = get_combinations(data[1:], n)
+    
+    return with_first + without_first
+
+# Generate and display combinations
+combos = get_combinations(flavors, n)
+print(f"\nPossible {n}-item combinations:")
+for c in combos:
+    print(", ".join(c))
