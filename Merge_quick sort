@@ -1,0 +1,62 @@
+# Merge Sort
+def merge_sort(salaries):
+    if len(salaries) > 1:
+        mid = len(salaries) // 2
+        left = salaries[:mid]
+        right = salaries[mid:]
+
+        merge_sort(left)
+        merge_sort(right)
+
+        i = j = k = 0
+
+        # Merge two halves
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                salaries[k] = left[i]
+                i += 1
+            else:
+                salaries[k] = right[j]
+                j += 1
+            k += 1
+
+        # Copy remaining elements
+        while i < len(left):
+            salaries[k] = left[i]
+            i += 1
+            k += 1
+        while j < len(right):
+            salaries[k] = right[j]
+            j += 1
+            k += 1
+    return salaries
+
+
+# Quick Sort
+def quick_sort(salaries):
+    if len(salaries) <= 1:
+        return salaries
+    else:
+        pivot = salaries[0]
+        smaller = [x for x in salaries[1:] if x <= pivot]
+        larger = [x for x in salaries[1:] if x > pivot]
+        return quick_sort(smaller) + [pivot] + quick_sort(larger)
+
+
+# Main Program
+if __name__ == "__main__":
+    # Input employee salaries
+    salaries = list(map(int, input("Enter employee salaries separated by space: ").split()))
+
+    print("\nOriginal Salaries:", salaries)
+
+    method = input("Select sorting method (merge/quick): ").strip().lower()
+
+    if method == "merge":
+        sorted_salaries = merge_sort(salaries.copy())
+        print("Employee salaries sorted using Merge Sort:", sorted_salaries)
+    elif method == "quick":
+        sorted_salaries = quick_sort(salaries.copy())
+        print("Employee salaries sorted using Quick Sort:", sorted_salaries)
+    else:
+        print("Invalid method. Please select either 'merge' or 'quick'.")
