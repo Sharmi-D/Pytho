@@ -1,0 +1,109 @@
+class Page:
+    def __init__(self, url):
+        self.url = url
+        self.next = None
+        self.prev = None
+
+class BrowserHistory:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.current_page = None
+
+    def __repr__(self):
+        """Returns the browser history in a forward-traversal string format."""
+        if not self.head:
+            return "History is empty."
+        
+        pages = []
+        current = self.head
+        while current:
+            pages.append(current.url)
+            current = current.next
+        
+        # Add a marker for the current page
+        history_str = " <-> ".join(pages)
+        if self.current_page:
+            history_str = history_str.replace(self.current_page.url, f"[{self.current_page.url}]")
+        
+        # Append 'None' to the end of the string
+        return history_str + " <-> None"
+
+    def visit(self, url):
+        """Adds a new page to the history."""
+        new_page = Page(url)
+        if not self.head:
+            self.head = new_page
+            self.tail = new_page
+        else:
+            # If a new page is visited, any 'forward' history is cleared.
+            if self.current_page and self.current_page.next:
+                # Update the tail to the current page
+                self.tail = self.current_page
+                # Discard the rest of the list
+                self.current_page.next = None
+            
+            self.tail.next = new_page
+            new_page.prev = self.tail
+            self.tail = new_page
+
+        self.current_page = new_page
+        print(f"Visited: {self.current_page.url}")
+        print(f"History: {self}\n")
+
+    def back(self):
+        """Navigates to the previous page."""
+        if self.current_page and self.current_page.prev:
+            self.current_page = self.current_page.prev
+            print(f"Moved back to: {self.current_page.url}")
+            print(f"History: {self}\n")
+        else:
+            print("Cannot go back further.")
+
+    def forward(self):
+        """Navigates to the next page."""
+        if self.current_page and self.current_page.next:
+            self.current_page = self.current_page.next
+            print(f"Moved forward to: {self.current_page.url}")
+            print(f"History: {self}\n")
+        else:
+            print("Cannot go forward further.")
+
+def main():
+    browser = BrowserHistory()
+    
+    while True:
+        print("--- Browser History Menu ---")
+        print("1. Visit a new URL")
+        print("2. Go back")
+        print("3. Go forward")
+        print("4. View full history")
+        print("5. Exit")
+        
+        choice = input("Enter your choice (1-5): ")
+
+        if choice == '1':
+            url = input("Enter the URL: ")
+            browser.visit(url)
+        
+        elif choice == '2':
+            browser.back()
+            
+        elif choice == '3':
+            browser.forward()
+            
+        elif choice == '4':
+            print("\n--- Full History ---")
+            print(browser)
+            print("--------------------\n")
+            
+        elif choice == '5':
+            print("Exiting browser. Goodbye!")
+            break
+            
+        else:
+            print("Invalid choice. Please enter a number between 1 and 5.")
+
+if __name__ == "__main__":
+    main()
+
