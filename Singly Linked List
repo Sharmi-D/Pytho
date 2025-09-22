@@ -1,0 +1,98 @@
+# Represents a single task in the to-do list
+class Task:
+    def __init__(self, description):
+        self.description = description
+        self.next = None
+
+# Manages the entire to-do list
+class ToDoList:
+    def __init__(self):
+        self.head = None  # The first task in the list
+
+    def is_empty(self):
+        return self.head is None
+
+    """Adds a new task to the end of the list."""
+    def add_task(self, description):
+        new_task = Task(description)
+        if self.is_empty():
+            self.head = new_task
+            return
+        
+        current_task = self.head
+        while current_task.next:
+            current_task = current_task.next
+        current_task.next = new_task
+
+    def remove_task(self, description_to_remove):
+        """Removes a specific task from the list."""
+        # assert not self.is_empty(), "The to-do list is empty. Nothing to remove."
+        if self.is_empty():
+            print("The to-do list is empty. Nothing to remove.")
+            return
+
+        # Case 1: Remove the head task
+        if self.head.description == description_to_remove:
+            self.head = self.head.next
+            print(f"Task '{description_to_remove}' removed.")
+            return
+
+        # Case 2: Remove a task in the middle or at the end
+        current_task = self.head
+        while current_task.next and current_task.next.description != description_to_remove:
+            current_task = current_task.next
+
+        if current_task.next:
+            current_task.next = current_task.next.next
+            print(f"Task '{description_to_remove}' removed.")
+        else:
+            print(f"Task '{description_to_remove}' not found.")
+
+    # display elements
+    def view_tasks(self):
+        """Displays all tasks in the list."""
+        if self.is_empty():
+            print("The to-do list is currently empty.")
+            return
+
+        print("\n--- Your To-Do List ---")
+        current_task = self.head
+        task_number = 1
+        while current_task:
+            print(f"{task_number}. {current_task.description}")
+            current_task = current_task.next
+            task_number += 1
+        print("---------------------\n")
+def main():
+    my_todo_list = ToDoList()
+    
+    while True:
+        print("\n--- To-Do List Menu ---")
+        print("1. Add a new task")
+        print("2. Remove a task")
+        print("3. View all tasks")
+        print("4. Exit")
+        
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == '1':
+            task_desc = input("Enter the new task: ")
+            my_todo_list.add_task(task_desc)
+            print(f"Task '{task_desc}' added.")
+        
+        elif choice == '2':
+            task_to_remove = input("Enter the task to remove: ")
+            my_todo_list.remove_task(task_to_remove)
+            
+        elif choice == '3':
+            my_todo_list.view_tasks()
+            
+        elif choice == '4':
+            print("Exiting the program. Goodbye!")
+            break
+            
+        else:
+            print("Invalid choice. Please enter a number between 1 and 4.")
+
+if __name__ == "__main__":
+    main()
