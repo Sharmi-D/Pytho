@@ -1,0 +1,140 @@
+# A class that represents an individual node in the binary search tree
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+# A class that represents the entire binary search tree
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    # Recursive helper function for insertion
+    def _insert(self, root, key):
+        if root is None:
+            return Node(key)
+        if key < root.key:
+            root.left = self._insert(root.left, key)
+        else:
+            root.right = self._insert(root.right, key)
+        return root
+
+    # Public method for insertion
+    def insert(self, key):
+        self.root = self._insert(self.root, key)
+        print(f"Node {key} inserted.")
+        self.print_traversals()
+
+    # Recursive helper function for finding the in-order successor
+    def _find_min_node(self, node):
+        current = node
+        while current.left is not None:
+            current = current.left
+        return current
+
+    # Recursive helper function for deletion
+    def _delete(self, root, key):
+        if root is None:
+            return root
+
+        if key < root.key:
+            root.left = self._delete(root.left, key)
+        elif key > root.key:
+            root.right = self._delete(root.right, key)
+        else:
+            if root.left is None:
+                temp = root.right
+                root = None
+                return temp
+            elif root.right is None:
+                temp = root.left
+                root = None
+                return temp
+            
+            temp = self._find_min_node(root.right)
+            root.key = temp.key
+            root.right = self._delete(root.right, temp.key)
+        
+        return root
+
+    # Public method for deletion
+    def delete(self, key):
+        self.root = self._delete(self.root, key)
+        print(f"Node {key} deleted (if it existed).")
+        self.print_traversals()
+
+    # Recursive helper function for in-order traversal
+    def _inorder_traversal(self, root):
+        result = []
+        if root:
+            result.extend(self._inorder_traversal(root.left))
+            result.append(root.key)
+            result.extend(self._inorder_traversal(root.right))
+        return result
+
+    # Recursive helper function for pre-order traversal
+    def _preorder_traversal(self, root):
+        result = []
+        if root:
+            result.append(root.key)
+            result.extend(self._preorder_traversal(root.left))
+            result.extend(self._preorder_traversal(root.right))
+        return result
+
+    # Recursive helper function for post-order traversal
+    def _postorder_traversal(self, root):
+        result = []
+        if root:
+            result.extend(self._postorder_traversal(root.left))
+            result.extend(self._postorder_traversal(root.right))
+            result.append(root.key)
+        return result
+    
+    # Method to print all three traversals
+    def print_traversals(self):
+        print("--- Tree Traversals ---")
+        print("In-order traversal (sorted):", self._inorder_traversal(self.root))
+        print("Pre-order traversal:", self._preorder_traversal(self.root))
+        print("Post-order traversal:", self._postorder_traversal(self.root))
+        print("-----------------------")
+
+
+# Main program loop
+def main():
+    bst = BinarySearchTree()
+
+    # User input for initial insertions
+    
+    while True:
+        print("\n--- Binary Search Tree Menu ---")
+        print("1. Insert a node")
+        print("2. Delete a node")
+        print("3. Exit")
+        
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == '1':
+            try:
+                key = int(input("Enter the value to insert: "))
+                bst.insert(key)
+            except ValueError:
+                print("Invalid input. Please enter an integer.")
+
+        elif choice == '2':
+            try:
+                key = int(input("Enter the value to delete: "))
+                bst.delete(key)
+            except ValueError:
+                print("Invalid input. Please enter an integer.")
+        
+        elif choice == '3':
+            print("Exiting program.")
+            break
+            
+        else:
+            print("Invalid choice. Please enter a number between 1 and 3.")
+
+if __name__ == "__main__":
+    main()
+
