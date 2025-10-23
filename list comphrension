@@ -1,0 +1,40 @@
+
+
+# Define the passing score threshold. The minimum score to pass is 61.
+passing_threshold = 60
+
+# 1. Ask the user to enter all the quiz scores.
+# print("Enter all quiz scores, separated by a comma (e.g., 65, 23, 45, 89, 48).")
+raw_scores = input("Enter all quiz scores, separated by a comma: ").split()
+
+# Use list comprehension to parse and convert the scores into a list of integers.
+scores_list = [int(score.strip()) for score in raw_scores]
+
+# 2. Use a list comprehension to create a list of grades.
+grades_list = [
+    'A' if score > 90 else
+    'B' if score > 80 else
+    'C' if score > 70 else
+    'D' if score > 60 else
+    'F'
+    for score in scores_list
+]
+
+# 3. Use a list comprehension to create a list of 'Pass' or 'Fail' results.
+pass_fail_list = ['Pass' if score > passing_threshold else 'Fail' for score in scores_list]
+
+# 4. Use a list comprehension to calculate the marks required to pass.
+required_marks = [
+    0 if score >= passing_threshold
+    else passing_threshold - score
+    for score in scores_list
+]
+
+# 5. Print the results.
+print("\n--- Processed Report ---")
+print(f"Entered scores: {scores_list}")
+print(f"Assigned grades: {grades_list}")
+print(f"Required marks to pass: {required_marks}")
+print(f"Pass/Fail results: {pass_fail_list}")
+
+
