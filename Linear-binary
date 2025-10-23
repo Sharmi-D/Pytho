@@ -1,46 +1,45 @@
-# 🎵 Song Search Program
-
-# Step 1: Take playlist from user
-playlist = input("Enter song names separated by commas: ").split(",")
-playlist = [song.strip() for song in playlist]  # Remove extra spaces
-
-# Step 2: Take song name to search
-song_to_find = input("Enter the song to search: ").strip()
-
-# ---------- Linear Search ----------
-def linear_search(songs, target):
-    for i in range(len(songs)):  # Go through each song
-        if songs[i].lower() == target.lower():  # Ignore case
-            return i  # Return the position
-    return -1  # Song not found
-
-# ---------- Binary Search ----------
-def binary_search(songs, target):
-    low = 0
-    high = len(songs) - 1
-    
-    while low <= high:
-        mid = (low + high) // 2
-        if songs[mid].lower() == target.lower():
-            return mid
-        elif songs[mid].lower() < target.lower():
-            low = mid + 1
-        else:
-            high = mid - 1
+# Linear Search
+def linear_search(arr, target):
+    for i in range(len(arr)):
+        print(f"Comparing {target} with {arr[i]} at index {i}")
+        if arr[i] == target:
+            print(f"Target {target} found at index {i}.")
+            return i
+    print(f"Target {target} not found in the list.")
     return -1
 
-# --- Run Linear Search ---
-pos = linear_search(playlist, song_to_find)
-if pos != -1:
-    print(f"\n✅ Linear Search: '{song_to_find}' found at position {pos}")
-else:
-    print(f"\n❌ Linear Search: '{song_to_find}' not found")
+# Binary Search
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
 
-# --- Run Binary Search ---
-# Binary search works only on sorted data
-sorted_playlist = sorted(playlist, key=str.lower)
-pos = binary_search(sorted_playlist, song_to_find)
-if pos != -1:
-    print(f"✅ Binary Search: '{song_to_find}' found at position {pos} in sorted list")
-else:
-    print(f"❌ Binary Search: '{song_to_find}' not found")
+    while low <= high:
+        mid = (low + high) // 2
+        print(f"Current search range: indices {low} to {high}. Middle element: {arr[mid]} at index {mid}")
+
+        if arr[mid] == target:
+            print(f"Target {target} found at index {mid}.")
+            return mid
+        elif arr[mid] < target:
+            print(f"{arr[mid]} is less than {target}. Shifting search to the right half.")
+            low = mid + 1
+        else:
+            print(f"{arr[mid]} is greater than {target}. Shifting search to the left half.")
+            high = mid - 1
+    
+    print(f"Target {target} not found in the list.")
+    return -1
+
+
+if __name__ == "__main__":
+    my_list = input("Enter song to search:").split()
+    target = input("Enter the target element to search:")
+    print("List of array:", my_list)
+
+    print("\n--- Linear Search ---")
+    linear_search(my_list.copy(), target)
+
+    print("\n--- Binary Search ---")
+    sorted_list = sorted(my_list)
+    print(f"Sorted list for binary search: {sorted_list}")
+    binary_search(sorted_list.copy(), target)
