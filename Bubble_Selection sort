@@ -2,9 +2,12 @@
 def bubble_sort(prices):
     n = len(prices)
     for i in range(n):
+        print(f"Iter {i+1}")
         for j in range(0, n-i-1):
             if prices[j] > prices[j+1]:
                 prices[j], prices[j+1] = prices[j+1], prices[j]
+            print(prices)
+        print(f"After iteration{i+1}: {prices}\n")
     return prices
 
 # Selection Sort function
@@ -15,23 +18,21 @@ def selection_sort(prices):
         for j in range(i+1, n):
             if prices[j] < prices[min_index]:
                 min_index = j
+            print(prices)
         prices[i], prices[min_index] = prices[min_index], prices[i]
+        print(f"After swapping index {i} and min_index {min_index}:{prices}\n")
     return prices
 
 # Main Program
 if __name__ == "__main__":
-    # Taking grocery prices input from user
     prices = list(map(int, input("Enter grocery item prices separated by space: ").split()))
-
     print("\nOriginal Prices:", prices)
 
-    method = input("Select sorting method (bubble/selection): ").strip().lower()
+    print("\n--- Bubble Sort Process ---")
+    sorted_prices = bubble_sort(prices.copy())
+    print("Sorted Prices using Bubble Sort:", sorted_prices)
 
-    if method == "bubble":
-        sorted_prices = bubble_sort(prices.copy())
-        print("Sorted Prices using Bubble Sort:", sorted_prices)
-    elif method == "selection":
-        sorted_prices = selection_sort(prices.copy())
-        print("Sorted Prices using Selection Sort:", sorted_prices)
-    else:
-        print("Invalid method. Please select either 'bubble' or 'selection'.")
+    print("\n--- Selection Sort Process ---")
+    sorted_prices = selection_sort(prices.copy())
+    print("Sorted Prices using Selection Sort:", sorted_prices)
+    
