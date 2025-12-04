@@ -1,0 +1,27 @@
+import java.util.Scanner;
+class Song{
+    String Title, Artist, Duration;
+    
+    public void display_song_detail(){
+        System.out.println("The song '"+ Title + "' performed by '"+ Artist + "' and its⁷ a cool '" + Duration + "' tarck.");
+    }
+}
+class Main {
+    public static void main(String[] a) {
+        Scanner inp = new Scanner(System.in);
+        
+        Song obj = new Song();
+        
+        System.out.println("Enter song name");
+        obj.Title = inp.nextLine();
+        System.out.println("\nEnter name of artist ");
+        obj.Artist = inp.nextLine();
+        System.out.println("\nEnter song duration(e.g: 2:14) ");
+        obj.Duration = inp.nextLine();
+        
+        
+        obj.display_song_detail();
+        
+        
+    }
+}
