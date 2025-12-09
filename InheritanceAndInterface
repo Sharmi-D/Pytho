@@ -1,0 +1,62 @@
+ // Interface
+interface PhoneFunctions {
+    void call();
+    void message();
+}
+
+// ---------------------------
+// Parent Class (Inheritance)
+// ---------------------------
+class Device {
+    String brand;
+
+    Device(String brand) {
+        this.brand = brand;
+    }
+
+    void showBrand() {
+        System.out.println("Brand: " + brand);
+    }
+}
+
+// ---------------------------
+// Child Class (Uses both)
+// ---------------------------
+class SmartPhone extends Device implements PhoneFunctions {
+
+    String model;
+
+    SmartPhone(String brand, String model) {
+        super(brand);        // calling parent constructor
+        this.model = model;
+    }
+
+    @Override
+    public void call() {
+        System.out.println(model + " is making a call...");
+    }
+
+    @Override
+    public void message() {
+        System.out.println(model + " is sending a message...");
+    }
+
+    void showModel() {
+        System.out.println("Model: " + model);
+    }
+}
+
+// ---------------------------
+// Main Class
+// ---------------------------
+public class Main {
+    public static void main(String[] args) {
+
+        SmartPhone sp = new SmartPhone("Samsung", "Galaxy S22");
+
+        sp.showBrand();   // from parent class (Device)
+        sp.showModel();   // from SmartPhone
+        sp.call();        // from Interface PhoneFunctions
+        sp.message();     // from Interface PhoneFunctions
+    }
+}
