@@ -1,0 +1,50 @@
+// LIBRARY MEMBER NAME INPUT
+import java.util.*;
+public class String_StringBuffer {
+    public static void main (String[] a){
+        Scanner inp = new Scanner(System.in);
+
+        // String class
+        System.out.println("Enter First Member Name:");
+        String member1 = inp.next();
+
+        System.out.println("Enter Second Member Name:");
+        String temp = inp.next();
+        String member2 = new String(temp);
+
+        System.out.println("\nMember 1 Name: " + member1);
+        System.out.println("Member 2 Name: " + member2);
+        // Length of first member name
+        int nameLength = member1.length();
+        System.out.println("Length of Member 1 Name: " + nameLength);
+        // First character of second member name
+        System.out.println("First Character of Member 2 Name: " + member2.charAt(0));
+        // String Comparing using equals() method 
+        if(member1.equals(member2))
+            System.out.println("Both Member 1 and Member 2 have the same name.");
+        else
+            System.out.println("The Member 1 and Member 2 have different names.");
+        // String Concatenation
+        System.out.println("Concated String: " + member1.concat("_").concat(member2));
+
+        // StringBuffer class
+        System.out.println("\n--- Library Member Remarks ---");
+
+        StringBuffer sb = new StringBuffer();
+        // Append string
+        sb.append("New Member Registered");
+        System.out.println("Initial Remark: " + sb);
+        // String capacity
+        System.out.println("Remark Storage Capacity: " + sb.capacity());
+        // insert a String
+        sb.insert(4, "Premium ");
+        System.out.println("After Adding Premium Note: " + sb);
+        // String replace
+        sb.replace(0, 3, "Old");
+        System.out.println("After Replacing Text: " + sb);
+        // String reverse
+        System.out.println("Reversed Remark: " + sb.reverse());
+
+        System.out.println("Index of 'Welcome': " + sb.indexOf("Welcome"));
+    }
+}
