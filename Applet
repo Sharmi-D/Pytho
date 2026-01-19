@@ -1,0 +1,121 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.border.AbstractBorder;
+
+public class CalculatorSwing extends JFrame implements ActionListener {
+
+    JTextField t1, t2, t3;
+    JButton add, sub, mul, div;
+    JLabel heading, subheading;
+    JPanel panel;
+
+    CalculatorSwing() {
+
+        setTitle("Simple Calculator");
+        setSize(550, 500);
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // ---------- Panel (Calculator Body) ----------
+        panel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(
+                        0, 0, Color.CYAN,
+                        0, getHeight(), Color.PINK
+                );
+                g2.setPaint(gp);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+
+        panel.setBounds(550, 150, 380, 360); // center alignment
+        panel.setLayout(null);
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
+        
+        // ---------- Heading ----------
+        heading = new JLabel("SIMPLE CALCULATOR", JLabel.CENTER);
+        heading.setBounds(40, 10, 300, 30);
+        heading.setFont(new Font("Arial", Font.BOLD, 20));
+        heading.setForeground(Color.BLACK);
+        
+        // ---------- Text Fields ----------
+        t1 = new JTextField();
+        t2 = new JTextField();
+        t3 = new JTextField("Result");
+        t3.setEditable(false);
+        
+        t1.setBounds(50, 90, 120,30);
+        t2.setBounds(200, 90, 120,30);
+        t3.setBounds(110, 280, 160,30);
+        
+        t1.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+        t2.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+        t3.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+        // ---------- Buttons ----------
+        add = new JButton("ADD");
+        sub = new JButton("SUB");
+        mul = new JButton("MUL");
+        div = new JButton("DIV");
+
+        add.setBounds(60, 140, 100, 40);
+        sub.setBounds(210, 140, 100, 40);
+        mul.setBounds(60, 200, 100, 40);
+        div.setBounds(210, 200, 100, 40);
+
+        add.setBackground(Color.CYAN);
+        sub.setBackground(Color.ORANGE);
+        mul.setBackground(Color.YELLOW);
+        div.setBackground(Color.PINK);
+
+        add.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        sub.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        mul.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        div.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        
+        // mul.setBorder(new RoundedBorder(20));
+        // ---------- Add to Panel ----------
+        panel.add(heading);
+        panel.add(t1);
+        panel.add(t2);
+        panel.add(t3);
+        panel.add(add);
+        panel.add(sub);
+        panel.add(mul);
+        panel.add(div);
+
+        // ---------- Add Panel to Frame ----------
+        add(panel);
+
+        // ---------- Action Listeners ----------
+        add.addActionListener(this);
+        sub.addActionListener(this);
+        mul.addActionListener(this);
+        div.addActionListener(this);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        int a = Integer.parseInt(t1.getText());
+        int b = Integer.parseInt(t2.getText());
+
+        if (e.getSource() == add)
+            t3.setText("Result: " + (a + b));
+        else if (e.getSource() == sub)
+            t3.setText("Result: " + (a - b));
+        else if (e.getSource() == mul)
+            t3.setText("Result: " + (a * b));
+        else
+            t3.setText("Result: " + (a / b));
+    }
+
+    public static void main(String[] args) {
+        new CalculatorSwing();
+    }
+}
