@@ -1,0 +1,115 @@
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+
+public class MovingBicycleApplet extends Applet implements Runnable {
+
+    int x = 50;
+    int angle = 0;
+    Thread t;
+
+    // Applet initialization
+    public void init() {
+        setSize(800, 400);
+        setBackground(new Color(173, 216, 230)); // sky
+    }
+
+    // Start animation
+    public void start() {
+        t = new Thread(this);
+        t.start();
+    }
+
+    // Stop animation
+    public void stop() {
+        t = null;
+    }
+
+    public void paint(Graphics g) {
+
+        int y = 220;
+
+        // ----- Wheels (Bold Blue) -----
+        g.setColor(Color.blue);
+        drawBoldOval(g, x, y, 100, 100);
+        drawBoldOval(g, x + 200, y, 100, 100);
+
+        // Spokes
+        g.setColor(Color.gray);
+        drawSpokes(g, x + 50, y + 50);
+        drawSpokes(g, x + 250, y + 50);
+
+        // ----- Frame (Bold Red) -----
+        g.setColor(Color.red);
+        drawBoldLine(g, x + 50, y + 50, x + 150, y - 20);
+        drawBoldLine(g, x + 150, y - 20, x + 250, y + 50);
+        drawBoldLine(g, x + 100, y + 50, x + 200, y + 50);
+        drawBoldLine(g, x + 150, y - 20, x + 130, y + 50);
+
+        // ----- Seat -----
+        g.setColor(Color.black);
+        drawBoldLine(g, x + 120, y - 40, x + 180, y - 40);
+
+        // ----- Handlebar -----
+        g.setColor(Color.green);
+        drawBoldLine(g, x + 250, y + 50, x + 300, y - 30);
+        drawBoldLine(g, x + 260, y - 30, x + 340, y - 30);
+
+        // ----- Pedal -----
+        g.setColor(Color.magenta);
+        drawPedal(g, x + 150, y + 50);
+    }
+
+    // Bold line
+    void drawBoldLine(Graphics g, int x1, int y1, int x2, int y2) {
+        g.drawLine(x1, y1, x2, y2);
+        g.drawLine(x1 + 1, y1 + 1, x2 + 1, y2 + 1);
+    }
+
+    // Bold oval
+    void drawBoldOval(Graphics g, int x, int y, int w, int h) {
+        g.drawOval(x, y, w, h);
+        g.drawOval(x + 1, y + 1, w, h);
+    }
+
+    void drawSpokes(Graphics g, int cx, int cy) {
+        double rad = Math.toRadians(angle);
+        int r = 40;
+
+        g.drawLine(cx, cy,
+                cx + (int)(r * Math.cos(rad)),
+                cy + (int)(r * Math.sin(rad)));
+
+        g.drawLine(cx, cy,
+                cx - (int)(r * Math.cos(rad)),
+                cy - (int)(r * Math.sin(rad)));
+    }
+
+    void drawPedal(Graphics g, int cx, int cy) {
+        double rad = Math.toRadians(angle);
+        int r = 30;
+
+        int px = cx + (int)(r * Math.cos(rad));
+        int py = cy + (int)(r * Math.sin(rad));
+
+        drawBoldLine(g, cx, cy, px, py);
+        g.fillRect(px - 6, py - 4, 12, 8);
+    }
+
+    // Animation logic
+    public void run() {
+        while (true) {
+            x += 5;
+            angle += 15;
+
+            if (x > 800)
+                x = -300;
+
+            repaint();
+
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {}
+        }
+    }
+}
