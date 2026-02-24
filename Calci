@@ -21,11 +21,13 @@ public class Calculator extends Frame implements ActionListener {
             Button bt=new Button(s);
 
             if(s.equals("C"))
-                bt.setBackground(Color.DARK_GRAY);
-            else
                 bt.setBackground(Color.LIGHT_GRAY);
+            else
+                bt.setBackground(Color.DARK_GRAY);
 
             bt.setForeground(Color.WHITE);
+            bt.setFont(new Font("Arial", Font.BOLD, 18));
+
 
             bt.addActionListener(this);
             p.add(bt);
