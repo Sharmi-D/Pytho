@@ -1,0 +1,69 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class Calculator extends Frame implements ActionListener {
+
+    TextField t = new TextField("0");
+    double n1; char op;
+
+    public Calculator() {
+        setSize(300,400);
+        setLayout(new BorderLayout());
+
+        t.setEditable(false);
+        add(t,BorderLayout.NORTH);
+
+        Panel p = new Panel(new GridLayout(4,4));
+        String[] b={"7","8","9","/","4","5","6","*",
+                    "1","2","3","-","C","0","=","+"};
+
+        for(String s:b){
+            Button bt=new Button(s);
+
+            if(s.equals("C"))
+                bt.setBackground(Color.DARK_GRAY);
+            else
+                bt.setBackground(Color.LIGHT_GRAY);
+
+            bt.setForeground(Color.WHITE);
+
+            bt.addActionListener(this);
+            p.add(bt);
+        }
+
+        add(p);
+
+        addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){System.exit(0);}
+        });
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e){
+        String c=e.getActionCommand();
+
+        if("0123456789".contains(c))
+            t.setText(t.getText().equals("0")?c:t.getText()+c);
+
+        else if(c.equals("C"))
+            t.setText("0");
+
+        else if(c.equals("=")){
+            double n2=Double.parseDouble(t.getText());
+            if(op=='+') t.setText(""+(n1+n2));
+            if(op=='-') t.setText(""+(n1-n2));
+            if(op=='*') t.setText(""+(n1*n2));
+            if(op=='/') t.setText(n2!=0?""+(n1/n2):"0");
+        }
+        else{
+            n1=Double.parseDouble(t.getText());
+            op=c.charAt(0);
+            t.setText("");
+        }
+    }
+
+    public static void main(String[] args){
+        new Calculator();
+    }
+}
