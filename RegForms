@@ -1,0 +1,65 @@
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+
+public class ColorInputApplet extends Applet implements ActionListener {
+
+    TextField fg, bg;
+    Button btn;
+    String text = "Color Changed Text";
+
+    public void init() {
+
+        setLayout(null);   // important for setBounds()
+
+        Label l1 = new Label("Enter Foreground Color:");
+        l1.setBounds(50, 50, 150, 20);
+        add(l1);
+
+        fg = new TextField();
+        fg.setBounds(220, 50, 100, 20);
+        add(fg);
+
+        Label l2 = new Label("Enter Background Color:");
+        l2.setBounds(50, 90, 150, 20);
+        add(l2);
+
+        bg = new TextField();
+        bg.setBounds(220, 90, 100, 20);
+        add(bg);
+
+        btn = new Button("Apply");
+        btn.setBounds(140, 130, 80, 30);
+        add(btn);
+
+        btn.addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        String f = fg.getText();
+        String b = bg.getText();
+
+        if(f.equalsIgnoreCase("red"))
+            setForeground(Color.RED);
+        else if(f.equalsIgnoreCase("blue"))
+            setForeground(Color.BLUE);
+        else if(f.equalsIgnoreCase("green"))
+            setForeground(Color.GREEN);
+
+        if(b.equalsIgnoreCase("pink"))
+            setBackground(Color.PINK);
+        else if(b.equalsIgnoreCase("cyan"))
+            setBackground(Color.CYAN);
+        else if(b.equalsIgnoreCase("gray"))
+            setBackground(Color.GRAY);
+
+        repaint();
+    }
+
+    public void paint(Graphics g) {
+        Font f = new Font("Arial", Font.BOLD, 18);
+        g.setFont(f);
+        g.drawString(text, 120, 200);
+    }
+}
