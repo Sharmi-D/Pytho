@@ -1,0 +1,95 @@
+library(class)
+library(e1071)
+library(caret)
+library(ggplot2)
+library(gridExtra)
+
+# Load dataset
+data("iris")
+head(iris)
+iris$Species <- factor(iris$Species)
+
+set.seed(123)
+
+# Split data
+index <- createDataPartition(iris$Species, p = 0.7, list = FALSE)
+train_data <- iris[index, ]
+test_data  <- iris[-index, ]
+
+# Features and labels
+train_features <- train_data[, 1:4]
+train_labels   <- train_data$Species
+
+test_features <- test_data[, 1:4]
+test_labels   <- test_data$Species
+
+# ---------------------------
+# K-Nearest Neighbors
+# ---------------------------
+k <- 5
+
+knn_predictions <- knn(
+  train = train_features,
+  test = test_features,
+  cl = train_labels,
+  k = k
+)
+
+confusion_matrix_knn <- table(
+  Predicted = knn_predictions,
+  Actual = test_labels
+)
+
+print("KNN Confusion Matrix")
+print(confusion_matrix_knn)
+
+accuracy_knn <- sum(diag(confusion_matrix_knn)) / sum(confusion_matrix_knn)
+print(paste("K-NN Accuracy:", round(accuracy_knn, 4)))
+
+plot_knn <- ggplot(
+  test_data,
+  aes(x = Petal.Length, y = Petal.Width, color = knn_predictions)
+) +
+  geom_point(size = 3) +
+  labs(
+    title = paste("K-NN Classification (k =", k, ")"),
+    x = "Petal Length",
+    y = "Petal Width"
+  ) +
+  theme_minimal()
+
+# ---------------------------
+# Naive Bayes
+# ---------------------------
+nb_model <- naiveBayes(Species ~ ., data = train_data)
+
+nb_predictions <- predict(nb_model, newdata = test_data)
+
+confusion_matrix_nb <- table(
+  Predicted = nb_predictions,
+  Actual = test_labels
+)
+
+print("Naive Bayes Confusion Matrix")
+print(confusion_matrix_nb)
+
+accuracy_nb <- sum(diag(confusion_matrix_nb)) / sum(confusion_matrix_nb)
+print(paste("Naive Bayes Accuracy:", round(accuracy_nb, 4)))
+
+plot_nb <- ggplot(
+  test_data,
+  aes(x = Petal.Length, y = Petal.Width, color = nb_predictions)
+) +
+  geom_point(size = 3) +
+  labs(
+    title = "Naive Bayes Classification",
+    x = "Petal Length",
+    y = "Petal Width"
+  ) +
+  theme_minimal()
+
+# ---------------------------
+# Display plots
+# ---------------------------
+grid.arrange(plot_knn, plot_nb, ncol = 2)
+
